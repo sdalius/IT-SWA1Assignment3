@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="EN">
+    <head>
+        <title>Choose a city</title>
+        <link rel="stylesheet" href="css/table.css">
+        <script type = 'module'>
+        import measurements from './js/measurements.js'
+        window.getMeasurements = function(place) {
+            const theMeasurements = measurements(window)
+            theMeasurements.getMeasurementData(place)
+        }
+        window.minTempFiveDays = function(date) {
+            const theMeasurements = measurements(window)
+            theMeasurements.minTempFiveDays(date)
+        }
+        window.updateHistoryFields = function(date) {
+            const theMeasurements = measurements(window)
+            theMeasurements.updateHistoryFields(date)
+        }
+        window.getCurrentDateForPredictionsAndHistory = function(){
+          const theMeasurements = measurements(window)
+          theMeasurements.getCurrentDateForPredictionsAndHistory()
+        }
+        window.refreshAllData = function(){
+          const theMeasurements = measurements(window)
+          theMeasurements.refreshAllData()
+        }
+        window.updatePredictionFields = function(date){
+          const theMeasurements = measurements(window)
+          theMeasurements.predictions24hours(date)
+        }
+        window.postData = function(){
+          const theMeasurements = measurements(window)
+          theMeasurements.postData()
+        }
+        window.disableFieldsAccordingToType = function(){
+          const theMeasurements = measurements(window)
+          theMeasurements.disableFieldsAccordingToType()
+        }
+
+        </script>
+    </head>
+    <body onload="getCurrentDateForPredictionsAndHistory();getMeasurements('Horsens')">
+    <div>
+      <div>
+        <label>Choose a city:</label>
+        <select name="city" id="city" onchange="getMeasurements()">
+          <option value="Horsens">Horsens</option>
+          <option value="Copenhagen">Copenhagen</option>
+          <option value="Aarhus">Aarhus</option>
+        </select>
+      </div>
+      <div id="dateForHistorybox">
+        <label>Date for history:</label>
+        <input style="margin-top: 3%;margin-left: 10px;" onchange="updateHistoryFields()" type="date" id="dateforHistory" name="dateforHistory">
+      </div>
+      <div id="dateForPredictionsbox">
+        <label>Date for predictions:</label>
+        <input style="margin-top: 3%;margin-left: 10px;" onchange="updatePredictionFields()", type="date" id="dateForPredictions" name="dateForPredictions">
+      </div>
+
+      <label><h2>Post data</h2></label>
+      <form style="margin-top: 25px; margin-bottom: 25px;"action="javascript:postData()">
+        <label for="text">Value:</label>
+        <input type="text" id="value" name="value" ><label id='measurementUnit'></label><br>
+        <label for="type">Type:</label>
+        <select name="type" id="type" onchange="disableFieldsAccordingToType()">
+          <option>Select type</option>
+          <option value="precipitation">Precipitation</option>
+          <option value="temperature">Temperature</option>
+          <option value="wind speed">Wind Speed</option>
+          <option value="cloud coverage">Cloud Coverage</option>
+        </select> <br>
+        <label for="date">Date and Time:</label>
+        <input type="date" id="date" name="date">
+        <input type="time" id="time" name="time"><br>
+        <label for="place">Place:</label>
+        <input type="text" id="place" name="place"><br>
+        <label for="precipitationType">Precipitation Type:</label>
+        <input type="text" id="precipitationType" name="precipitationType"><br>
+        <label for="direction">Direction:</label>
+        <input type="text" id="direction" name="direction"><br>
+
+        <input type="submit" value="Submit">
+      </form> 
+
+      <button onclick="refreshAllData()">Refresh</button>
+      
+      
+        <table id="latestMeasurements">
+            <caption><h2>Latest measurements</h2></caption>
+            <thead>
+            <tr>
+              <th>Place</th>
+              <th>Temperature</th>
+              <th>Precipitation</th>
+              <th>Wind</th>
+              <th>Cloud coverage</th>
+            </tr>
+            </thead>
+            <tbody id='latestMeasurementdata'></tbody>
+          </table>
+        </div>
+        <div>
+            <table id="minTemp">
+                <caption><h2>Minimum temperature for the last 5 days</h2></caption>
+                <thead>
+                <tr>
+                  <th>Place</th>
+                  <th>Temperature</th>
+                </tr>
+                </thead>
+                <tbody id='fivedaysTempBody'></tbody>
+              </table>
+        </div>
+        <div>
+            <table id="maxTemp">
+                <caption><h2>Maximum temperature for the last 5 days</h2></caption>
+                <thead>
+                <tr>
+                  <th>Place</th>
+                  <th>Temperature</th>
+                </tr>
+                </thead>
+                <tbody id='fivedayMaxTempBody'></tbody>
+              </table>
+        </div>
+        <div>
+            <table id="totalPrec">
+                <caption><h2>Total precipitation for the last 5 days</h2></caption>
+                <thead>
+                <tr>
+                  <th>Place</th>
+                  <th>Precipitation</th>
+                </tr>
+                </thead>
+                <tbody id='fivedayTotalPrecipitationBody'></tbody>
+              </table>
+        </div>
+        <div>
+            <table id="avgWindSpeed">
+                <caption><h2>Average wind speed for the last 5 days</h2></caption>
+                <thead>
+                <tr>
+                  <th>Place</th>
+                  <th>Average Wind Speed</th>
+                </tr>
+                </thead>
+                <tbody id='avgWindSpeedBody'></tbody>
+              </table>
+        </div>
+        <div>
+            <table id="predictionfor24hours">
+                <caption><h2>Predictions for the next 24 hours</h2></caption>
+                <thead>
+                <tr>
+                  <th>Place</th>
+                  <th>Time</th>
+                  <th>Temperature</th>
+                  <th>Precipitation</th>
+                  <th>Precipitation types</th>
+                  <th>Wind</th>
+                  <th>Wind directions</th>
+                  <th>Cloud coverage</th>
+                </tr>
+                </thead>
+                <tbody id='predictionfor24hoursBody'></tbody>
+              </table>
+        </div>
+    </body>
+</html>
